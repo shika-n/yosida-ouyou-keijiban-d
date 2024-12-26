@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja" layout:decorate="~{commons/layout}">
+<head>
+</head>
+<body>
+	<div layout:fragment="content" class="max-w-md mx-auto rounded-xl p-4 border">
+		<h1 class="text-xl text-center font-bold">プロフィール編集</h1>
+		<hr class="mt-4">
+		<form class="flex flex-col space-y-4" th:action="@{/edit_profile}" method="post" th:object="${form}">
+			<label for="username">ユーザー名</label>
+			<div class="flex flex-col">
+				<input type="text" id="username" placeholder="にゃんこ" name="username" th:field="*{username}" minlength="1" maxlength="50" required th:classappend="${#fields.hasErrors('username') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			
+			<label for="usertag">ユーザータッグ</label>
+			<div class="flex flex-col">
+				<div class="flex items-center">
+					<h2 class="px-3">@</h2>
+					<input type="text" id="usertag" placeholder="example123" name="usertag" th:field="*{usertag}" minlength="4" maxlength="20" required th:classappend="${#fields.hasErrors('usertag') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 w-full rounded-md caret-black text-black ring-purple-600 focus:ring">
+				</div>
+				<span th:if="${#fields.hasErrors('usertag')}" th:errors="*{usertag}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			
+			<label for="email">メールアドレス</label>
+			<div class="flex flex-col">
+				<input type="email" id="email" placeholder="example@email.com" name="email" th:field="*{email}" required th:classappend="${#fields.hasErrors('email') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+
+			<label for="description">プロフィール</label>
+			<div class="flex flex-col w-full">
+				<textarea id="contentTextArea" placeholder="プロフィールのディスクリプション" name="description" th:field="*{description}" maxlength="256" class="p-2 bg-white rounded-md caret-black text-black ring-purple-600 focus:ring"></textarea>
+				<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			<div class="flex items-center space-x-4">
+				<p id="charCounter"></p>
+			</div>
+			<script th:src="@{/js/char_counter.js}"></script>
+
+			<label for="password">現在のパスワード</label>
+			<div class="flex flex-col">
+				<input type="password" id="old_password" placeholder="Old Password" name="oldPassword" th:field="*{oldPassword}" maxlength="50" th:classappend="${#fields.hasErrors('oldPassword') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			<label for="password">新しいパスワード</label>
+			<div class="flex flex-col">
+				<input type="password" id="new_password" placeholder="New Password" name="newPassword" th:field="*{newPassword}" maxlength="50" th:classappend="${#fields.hasErrors('newPassword') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+				<span th:if="${#fields.hasErrors('passwordMatching')}" th:errors="*{passwordMatching}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+				<span th:if="${#fields.hasErrors('passwordValid')}" th:errors="*{passwordValid}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			<label for="password">新しいパスワード確認</label>
+			<div class="flex flex-col">
+				<input type="password" id="new_password_confirm" placeholder="New Password Confirmation" name="newPasswordConfirm" th:field="*{newPasswordConfirm}" maxlength="50" th:classappend="${#fields.hasErrors('newPasswordConfirm') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('newPasswordConfirm')}" th:errors="*{newPasswordConfirm}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+				<span th:if="${#fields.hasErrors('passwordMatching')}" th:errors="*{passwordMatching}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+
+			<input type="submit" value="登録" class="transition-all hover:-translate-y-1 hover:bg-purple-600 px-4 py-2 rounded-xl border border-solid border-purple-800 font-bold focus:bg-purple-600 active:bg-amber-500 active:translate-y-0">
+		</form>
+	</div>
+</body>
+</html>

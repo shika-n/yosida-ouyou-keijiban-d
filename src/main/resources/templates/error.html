@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{commons/layout}">
+<head>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<h1 th:text="${status}" class="text-xl font-bold text-center md:text-left">Status</h1> 
+		<h1 th:switch="${status}" class="text-4xl font-bold text-center md:text-left">
+			<th:block th:case="404">
+				ページが、、ない！
+			</th:block>
+			<th:block th:case="403">
+				見ちゃだめページ
+			</th:block>
+			<th:block th:case="405">
+				メソッドが、、ない！
+			</th:block>
+			<th:block th:case="999">
+				何が起こったかわからないエラー
+			</th:block>
+			<th:block th:case=*>
+				[[${error}]]
+			</th:block>
+		</h1>
+	</th:block>
+</body>
+</html>
+

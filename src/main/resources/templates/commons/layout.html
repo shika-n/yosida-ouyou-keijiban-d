@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja"
+	xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+	<!-- 授業でBootstrapを使ってるんでTailwind挑戦みたい！ -->	
+	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- purple-600 amber-500 emerald-400 -->
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<title>グループDの掲示板！</title>
+</head>
+<body class="bg-slate-900 text-white font-mono">
+	<header class="border-b border-gray-600 mb-8">
+		<nav id="navbar" class="transition-all h-14 md:h-auto flex flex-col md:flex-row justify-between p-4 items-center overflow-hidden">
+			<div class="w-full md:w-auto mb-4 md:mb-0 flex items-center space-x-4 md-space-x-0">
+				<button onclick="toggleNavbar()" class="md:hidden">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+					</svg>
+				</button>
+				<h1 class="text-xl font-bold select-none"><a th:href="@{/}">グループDの掲示板！</a></h1>
+			</div>
+			<ul class="flex flex-col md:flex-row md:space-y-0 w-full md:w-auto divide-y md:divide-y-0 space-y-1 md:space-x-1">
+				<th:block sec:authorize="!isAuthenticated()">
+					<li><a class="block transition-all px-4 py-2 rounded-md hover:bg-purple-600 select-none cursor-pointer focus:bg-purple-600 active:bg-purple-800" th:href="@{/login}">ログイン</a></li>
+					<li><a class="block transition-all px-4 py-2 rounded-md hover:bg-amber-500 select-none cursor-pointer focus:bg-amber-500 active:bg-amber-700" th:href="@{/register}">新規登録</a></li>
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+					<li><a class="block transition-all px-4 py-2 rounded-md hover:bg-purple-600 select-none cursor-pointer focus:bg-purple-600 active:bg-purple-800" th:if="${authUser != null}" th:href="@{/profile/{id}(id=${authUser.id})}">マイページ</a></li>
+					<li><a class="block transition-all px-4 py-2 rounded-md hover:bg-amber-500 select-none cursor-pointer focus:bg-amber-500 active:bg-amber-700" th:href="@{/logout}">ログアウト</a></li>
+				</th:block>
+			</ul>
+			<script th:src="@{/js/toggle_navbar.js}"></script>
+		</nav>
+	</header>
+	<main>
+		<div class="container mx-auto w-full md:w-3/5">
+			<th:block layout:fragment="content"></th:block>
+		</div>
+	</main>
+	<footer class="text-center border-t border-gray-600 mt-8 py-2">
+		<small class="font-bold">掲示板！&copy;グループD</small>
+	</footer>
+	<script th:src="@{/js/like.js}"></script>
+</body>
+</html>
+

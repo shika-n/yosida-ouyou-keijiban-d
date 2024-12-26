@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{commons/layout}">
+<head>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div th:if="${param.newlyRegistered} or ${param.loggedIn}" class="flex p-2 mb-4 items-center space-x-1 border-2 border-purple-600 rounded-xl">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-purple-600">
+				<path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+			</svg>
+			<p th:if="${param.newlyRegistered}">
+				ご登録ありがとうございました！
+				<a th:href="@{/login}" class="text-purple-600 underline-offset-2 hover:text-amber-500 hover:underline">こちら</a>からログインしてください。
+			</p>
+			<p th:if="${param.loggedIn}">
+				<th:block sec:authorize="isAuthenticated()">
+					ログインしました！
+				</th:block>
+				<th:block sec:authorize="!isAuthenticated()">
+					ログアウトされました。
+				</th:block>
+			</p>
+		</div>
+		<h1 class="text-3xl font-bold mb-6 text-center md:text-left">タイムライン</h1>
+		<th:block th:replace="~{frags::post_input_frag('ポストを投稿しよっ！', null, false)}"></th:block>
+		<th:block th:replace="~{frags::paging_component(@{/})}"></th:block>
+		<div class="border rounded-xl p-4 flex flex-col divide-y divide-gray-600">
+			<div th:each="post : ${posts}">
+				<th:block th:replace="~{frags::post_frag(${post})}"></th:block>
+			</div>
+		</div>
+		<th:block th:replace="~{frags::paging_component(@{/})}"></th:block>
+	</th:block>
+</body>
+</html>
+

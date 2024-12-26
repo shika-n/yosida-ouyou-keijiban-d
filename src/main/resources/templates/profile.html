@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{commons/layout}">
+<head>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<th:block th:if="${user != null}">
+			<div class="border rounded-xl p-4 mb-4">
+				<div class="flex justify-between">
+					<div class="flex grow items-center min-w-0">
+						<img th:src="@{/images/profile128.png}" alt="Profile picture" class="w-12">
+						<div class="flex flex-col overflow-hidden">
+							<h1 th:text="${user.username}" class="text-3xl truncate">Username</h1>
+							<h3 th:text="'@' + ${user.usertag}" class="text-sm truncate">usertag</h3>
+						</div>
+					</div>
+					<th:block sec:authorize="isAuthenticated()" th:if="${authUser != null && user.id == authUser.id}">
+						<a th:href="@{/edit_profile}" class="h-min flex-none px-8 py-2 border-solid border border-white rounded-full transition-all hover:bg-purple-600 active:bg-purple-800">編集</a>
+					</th:block>
+				</div>
+				<hr class="my-2 border-gray-600">
+				<p th:text="${user.description}" class="whitespace-pre-wrap break-words"></p>
+			</div>
+			<th:block th:replace="~{frags::paging_component(@{/profile/{id}(id=${user.id})})}"></th:block>
+			<th:block th:if="${authUser != null && user.id == authUser.id}">
+				<th:block th:replace="~{frags::post_input_frag('ポストを投稿しよっ！', null, true)}"></th:block>
+			</th:block>
+			<div class="border rounded-xl p-4 flex flex-col divide-y divide-gray-600">
+				<h1 class="mb-4 text-xl font-bold break-words">[[${authUser != null && user.id == authUser.id} ? 'あなた' : (${user.username} + 'さん')]]のポスト</h1>
+				<div th:each="post : ${posts}">
+					<th:block th:replace="~{frags::post_frag(${post})}"></th:block>
+				</div>
+			</div>
+			<th:block th:replace="~{frags::paging_component(@{/profile/{id}(id=${user.id})})}"></th:block>
+		</th:block>
+		<h1 th:if="${user == null}" class="text-2xl font-bold">
+			ユーザーが存在していません！
+		</h1>
+	</th:block>
+</body>
+</html>
+

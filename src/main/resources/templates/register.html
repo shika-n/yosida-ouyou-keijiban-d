@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja" layout:decorate="~{commons/layout}">
+<head>
+</head>
+<body>
+	<div layout:fragment="content" class="max-w-md mx-auto rounded-xl p-4 border">
+		<h1 class="text-xl text-center font-bold">新規登録</h1>
+		<hr class="mt-4">
+		<form class="flex flex-col space-y-4" th:action="@{/register}" method="post" th:object="${form}">
+			<label for="username">ユーザー名</label>
+			<div class="flex flex-col">
+				<input type="text" id="username" placeholder="にゃんこ" name="username" th:field="*{username}" minlength="1" maxlength="50" required th:classappend="${#fields.hasErrors('username') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			
+			<label for="usertag">ユーザータッグ</label>
+			<div class="flex flex-col">
+				<div class="flex items-center">
+					<h2 class="px-3">@</h2>
+					<input type="text" id="usertag" placeholder="example123" name="usertag" th:field="*{usertag}" minlength="4" maxlength="20" required th:classappend="${#fields.hasErrors('usertag') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 w-full rounded-md caret-black text-black ring-purple-600 focus:ring">
+				</div>
+				<span th:if="${#fields.hasErrors('usertag')}" th:errors="*{usertag}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+			
+			<label for="email">メールアドレス</label>
+			<div class="flex flex-col">
+				<input type="email" id="email" placeholder="example@email.com" name="email" th:field="*{email}" required th:classappend="${#fields.hasErrors('email') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+
+			<label for="password">パスワード</label>
+			<div class="flex flex-col">
+				<input type="password" id="password" placeholder="Password" name="password" th:field="*{password}" minlength="4" maxlength="50" required th:classappend="${#fields.hasErrors('password') ? 'bg-rose-300' : ''}" class="bg-white px-4 py-2 rounded-md caret-black text-black ring-purple-600 focus:ring">
+				<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-xs pt-1 font-bold text-rose-600 underline decoration-wavy underline-offset-2 leading-5"></span>
+			</div>
+
+			<input type="submit" value="登録" class="transition-all hover:-translate-y-1 hover:bg-purple-600 px-4 py-2 rounded-xl border border-solid border-purple-800 font-bold focus:bg-purple-600 active:bg-amber-500 active:translate-y-0">
+		</form>
+	</div>
+</body>
+</html>
